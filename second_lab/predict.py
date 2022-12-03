@@ -13,9 +13,9 @@ def predictStep(i, inputMatrix, contextMatrix, firstWeightMatrix, secondWeightMa
 
 
 def predict():
-    p = int(input('Input p: '))
-    L = int(input('Input L: '))
-    
+    firstWeightMatrix, secondWeightMatrix, contextMatrix = pickWeightMatrix()
+    p = len(firstWeightMatrix) -1
+    L = len(firstWeightMatrix[0])
 
     action = float(input('Choose ur seq:\n1. ArithSeq\n2. DegreeSeq\n3. PeriodSeq\n4. FibSeq\n'))
     if action == 1:
@@ -31,7 +31,7 @@ def predict():
         
     inputMatrix = genInputMatrix(seq, p, L+1)
     
-    firstWeightMatrix, secondWeightMatrix, contextMatrix = pickWeightMatrix()
+    
     
    
     for i in range(len(inputMatrix) - 1):

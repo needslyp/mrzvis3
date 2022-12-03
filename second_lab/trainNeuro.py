@@ -94,6 +94,6 @@ def trainNeuro():
         iteration += 1
 
         # запись результата
-        if sumErr < e or iteration > 100000: 
+        if sumErr < e or iteration > 1000000: 
             saveWeightMatrix(firstWeightMatrix, secondWeightMatrix, [contextMatrix])
             break

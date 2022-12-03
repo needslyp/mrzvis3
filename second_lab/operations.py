@@ -36,9 +36,9 @@ def genInputMatrix(seq, p, L):
     
 def genWeightMatrix(p, L):
     # матрица весов 1-го слоя
-    firstWeightMatrix = [[random.uniform(-0.1, 0.1) for j in range(L)] for i in range(p+1)]
+    firstWeightMatrix = [[random.uniform(-1, 1) for j in range(L)] for i in range(p+1)]
     # матрица весов 2-го слоя
-    secondWeightMatrix = [[random.uniform(-0.1, 0.1) for j in range(1)] for i in range(L)]
+    secondWeightMatrix = [[random.uniform(-1, 1) for j in range(1)] for i in range(L)]
 
     return firstWeightMatrix, secondWeightMatrix#, contextWeightMatrix
 
