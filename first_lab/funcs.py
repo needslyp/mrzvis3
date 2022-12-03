@@ -184,8 +184,8 @@ def trainStep(i, blocks, firstWeightMatrix, secondWeightMatrix):
     saveMatrix = secondWeightMatrix
     secondWeightMatrix = correctWeightMatrix(firstWeightMatrix, secondWeightMatrix, Y, dX, layer=2)
     firstWeightMatrix = correctWeightMatrix(firstWeightMatrix, saveMatrix, Y, dX, X=X)
-    #firstWeightMatrix = normalWeightMatrix(firstWeightMatrix)
-    #secondWeightMatrix = normalWeightMatrix(secondWeightMatrix)
+    firstWeightMatrix = normalWeightMatrix(firstWeightMatrix)
+    secondWeightMatrix = normalWeightMatrix(secondWeightMatrix)
 
     return firstWeightMatrix, secondWeightMatrix, dX
 

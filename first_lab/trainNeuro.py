@@ -3,7 +3,7 @@ from tqdm import tqdm
 from funcs import *
 
 
-def training():
+def trainNeuro():
     # считывание файлов
     print('Enter filename: ')
     for filename in os.listdir("img"):
@@ -15,6 +15,7 @@ def training():
     # ввод размера блоков
     blockWidth, blockHeight = inputBlocks(imgWidth, imgHeight)
     blocks = mirror(rgbMatrix, blockWidth, blockHeight)
+    print(len(blocks),len(blocks[0]), len(blocks[0]))
 
     # ввести количество нейронов на скрытом слое
     print(f'In your block there are {len(blocks[0])} input neurons.')
