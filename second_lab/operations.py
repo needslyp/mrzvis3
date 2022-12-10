@@ -2,78 +2,68 @@ from math import *
 import random
 import copy
 
-def transposeMatrix(matrix):
-    matrix = copy.deepcopy(matrix)
-    return [[matrix[i][j] for i in range(len(matrix))] for j in range(len(matrix[0]))]
-    #транспонирование матрицы
+def transposeMatrix(mat):
+    mat = copy.deepcopy(mat)
+    matrix = []
+    for i in range(len(mat[0])):
+        matrix.append(list())
+        for j in range(len(mat)):
+            matrix[i].append(mat[j][i])
+    return matrix
+
 
 def multiMatrix(a, b):
-    a = copy.deepcopy(a)
-    b = copy.deepcopy(b)
-    zip_b = zip(*b)
-    zip_b = list(zip_b)  # массив столбцов второй матрицы   
-    
-    # zip(row_a, col_b) - массив из пар элемента строки первой матрицы и элемента столбца второй матрицы
-    # перемножаем эту пару, складываем
+    m = len(a)  # a: m × n
+    n = len(b)  # b: n × k
+    k = len(b[0])
 
-    return [[sum(ele_a * ele_b for ele_a, ele_b in zip(row_a, col_b)) for col_b in zip_b] for row_a in a]
+    c = [[None for __ in range(k)] for __ in range(m)]  # c: m × k
+
+    for i in range(m):
+        for j in range(k):
+            c[i][j] = sum(a[i][kk] * b[kk][j] for kk in range(n))
+
+    return c
 
 def sumMatrix(a, b):
     a = copy.deepcopy(a)
     b = copy.deepcopy(b)
-    return [[a[i][j] + b[i][j] for j in range(len(a[0]))] for i in range(len(a))]
-    # сумма матриц А и В
+    return [list(map(sum, zip(*i))) for i in zip(a, b)]
+
 
 def diffMatrix(a, b):
-    a = copy.deepcopy(a)
     b = copy.deepcopy(b)
-    return [[a[i][j] - b[i][j] for j in range(len(a[0]))] for i in range(len(a))]
-    #разность матриц А и В
+    b = [[-1*i for i in b[l]] for l in range(len(b))]
+
+    return sumMatrix(a,b)
 
 def genInputMatrix(seq, p, L):
-    #генерация входной матрицы
-    return [[seq[i+l] for i in range(p)] for l in range(L)]
-    
+    return [[seq[i + l] for i in range(p)] for l in range(L)]
+
+
 def genWeightMatrix(p, L):
-    # матрица весов 1-го слоя
-    firstWeightMatrix = [[random.uniform(-1, 1) for j in range(L)] for i in range(p+1)]
-    # матрица весов 2-го слоя
-    secondWeightMatrix = [[random.uniform(-1, 1) for j in range(1)] for i in range(L)]
+    firstWeightMatrix = [[random.uniform(-0.1, 0.1) for __ in range(L)] for __ in range(p + 1)]
+    secondWeightMatrix = [[random.uniform(-0.1, 0.1) for __ in range(1)] for __ in range(L)]
 
-    return firstWeightMatrix, secondWeightMatrix#, contextWeightMatrix
+    return firstWeightMatrix, secondWeightMatrix
 
-def vectorModule(w_vector):
-    # модель вектора
-    w_vector = copy.deepcopy(w_vector)
-    return sqrt(sum([i ** 2 for i in w_vector]))
+def saveWeightMatrix(files=[]):
+    file_number = 1
+    for filename in files:
+        with open(f'{file_number}.txt', 'w') as f:
+            for i in range(len(filename)):
+                for j in range(len(filename[0])):
+                    f.write(f"{filename[i][j]} ")
+                f.write('\n')
+        file_number+=1
 
-def saveWeightMatrix(firstWeightMatrix, secondWeightMatrix, contextMatrix):
-    # сохранение весов
-    with open('matrix_1.txt', 'w') as f:
-        for i in range(len(firstWeightMatrix)):
-            for j in range(len(firstWeightMatrix[0])):
-                f.write(f"{firstWeightMatrix[i][j]} ")
-            f.write('\n')
-
-    with open('matrix_2.txt', 'w') as f:
-        for i in range(len(secondWeightMatrix)):
-            for j in range(len(secondWeightMatrix[0])):
-                f.write(f"{secondWeightMatrix[i][j]} ")
-            f.write('\n')
-
-    with open('context.txt', 'w') as f:
-        for i in range(len(contextMatrix)):
-            for j in range(len(contextMatrix[0])):
-                f.write(f"{contextMatrix[i][j]} ")
-            f.write('\n')
 
 def pickOneMatrix(file):
-    # получить сохраненные веса одной матрицы
     with open(file, 'r') as file:
         matrix = file.readlines()
 
     return [[float(n) for n in x.split()] for x in matrix]
 
+
 def pickWeightMatrix():
-    # получить сохраненные веса всех матриц
-    return pickOneMatrix('matrix_1.txt'), pickOneMatrix('matrix_2.txt'), pickOneMatrix('context.txt')[0]
+    return pickOneMatrix('1.txt'), pickOneMatrix('2.txt'), pickOneMatrix('3.txt')[0]

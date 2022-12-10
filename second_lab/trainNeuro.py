@@ -44,6 +44,16 @@ def trainStep(i, inputMatrix, contextMatrix, alpha, firstWeightMatrix, secondWei
     if useNull:
         contextMatrix = [0]
     else:
+
+
+
+
+
+
+
+
+
+        
         contextMatrix = output[0]
 
     return firstWeightMatrix, secondWeightMatrix, contextMatrix, gamma, output
@@ -95,5 +105,5 @@ def trainNeuro():
 
         # запись результата
         if sumErr < e or iteration > 1000000: 
-            saveWeightMatrix(firstWeightMatrix, secondWeightMatrix, [contextMatrix])
+            saveWeightMatrix([firstWeightMatrix, secondWeightMatrix, [contextMatrix]])
             break
