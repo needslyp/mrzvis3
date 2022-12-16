@@ -11,7 +11,6 @@ def transposeMatrix(mat):
             matrix[i].append(mat[j][i])
     return matrix
 
-
 def multiMatrix(a, b):
     m = len(a)  # a: m × n
     n = len(b)  # b: n × k
@@ -24,6 +23,17 @@ def multiMatrix(a, b):
             c[i][j] = sum(a[i][kk] * b[kk][j] for kk in range(n))
 
     return c
+
+def multiMatrixNumber(matrix, numb):
+    matrix = copy.deepcopy(matrix)
+    res_matrix = []
+    for i in range(len(matrix)):
+        res_matrix_row = []
+        for j in range(len(matrix[0])):
+            res_matrix_row.append(numb * matrix[i][j])
+        res_matrix.append(res_matrix_row)
+    
+    return res_matrix
 
 def sumMatrix(a, b):
     a = copy.deepcopy(a)
@@ -38,12 +48,30 @@ def diffMatrix(a, b):
     return sumMatrix(a,b)
 
 def genInputMatrix(seq, p, L):
-    return [[seq[i + l] for i in range(p)] for l in range(L)]
+    matrix = []
+    for l in range(L):
+        matrix_row = []
+        for i in range(p):
+            matrix_row.append(seq[i+l])
+        matrix.append(matrix_row)
+
+    return matrix
 
 
 def genWeightMatrix(p, L):
-    firstWeightMatrix = [[random.uniform(-0.1, 0.1) for __ in range(L)] for __ in range(p + 1)]
-    secondWeightMatrix = [[random.uniform(-0.1, 0.1) for __ in range(1)] for __ in range(L)]
+    firstWeightMatrix = []
+    for _ in range(p+1):
+        matrix_row = []
+        for __ in range(L):
+            matrix_row.append(random.uniform(-0.1, 0.1))
+        firstWeightMatrix.append(matrix_row)
+ 
+    secondWeightMatrix = []
+    for _ in range(L):
+        matrix_row = []
+        for __ in range(1):
+            matrix_row.append(random.uniform(-0.1, 0.1))
+        secondWeightMatrix.append(matrix_row)    
 
     return firstWeightMatrix, secondWeightMatrix
 
@@ -61,8 +89,15 @@ def saveWeightMatrix(files=[]):
 def pickOneMatrix(file):
     with open(file, 'r') as file:
         matrix = file.readlines()
+    
+    res_matrix = []
+    for x in matrix:
+        res_matrix_row = []
+        for n in x.split():
+            res_matrix_row.append(float(n))
+        res_matrix.append(res_matrix_row)
 
-    return [[float(n) for n in x.split()] for x in matrix]
+    return res_matrix
 
 
 def pickWeightMatrix():
