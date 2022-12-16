@@ -1,14 +1,28 @@
 import copy
 
-def printToMatrix(folder, filename):
-    with open(f'{folder}/{filename}', 'r') as file:
+def makeMatrix(path):
+    with open(path, 'r') as file:
         lst = file.readlines()
-    new_lst = [[int(n) for n in x[:-1]] for x in lst[:-1]]
-    new_lst.append([])
-    for i in lst[-1]:
-        new_lst[-1].append(int(i))
+    
+    matrix = []
+    for x in lst:
+        matrix_row = []
+        for n in x[:-1]:
+            matrix_row.append(int(n))
+        matrix.append(matrix_row)
 
-    return new_lst
+    return matrix
+
+def fromMatrixTo1Line(matrix):
+    returnMatrix = []
+    for row in matrix:
+        for x in row:
+            if x == 0:
+                returnMatrix.append(-1)
+            else:
+                returnMatrix.append(x)
+
+    return returnMatrix
 
 def transposeMatrix(mat):
     mat = copy.deepcopy(mat)
@@ -17,11 +31,13 @@ def transposeMatrix(mat):
         matrix.append(list())
         for j in range(len(mat)):
             matrix[i].append(mat[j][i])
+
     return matrix
 
 def sumMatrix(a, b):
     a = copy.deepcopy(a)
     b = copy.deepcopy(b)
+
     return [list(map(sum, zip(*i))) for i in zip(a, b)]
 
 def multiMatrix(a, b):
@@ -37,8 +53,17 @@ def multiMatrix(a, b):
 
     return c
 
-def make0Diagonal(matrix):
-    for i in range(len(matrix)):
-        matrix[i][i] = 0
+def roundMatrix(outputMatrix):
+    result = []
+    for row in outputMatrix:
+        res_row = []
+        for x in row:
+            if round(x) == -1:
+                res_row.append(0)
+            elif round(x) == 1:
+                res_row.append(1)
+        result.append(res_row)
 
-    return matrix
+    outputMatrix = transposeMatrix(result)[0]
+    
+    return outputMatrix

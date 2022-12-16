@@ -1,9 +1,8 @@
 from utils import *
 
 
-filename, image, row, cols, inputMatrix = initInput()
+filename, rows, cols, inputMatrix = initInput()
 weightMatrix = makeWeight()
-
 
 relax = False
 iteration = 0
@@ -14,16 +13,16 @@ while relax == False:
     countNeuro = makeCheck(outputMatrix, inputMatrix)
 
     iteration += 1
-    print(f'Iteration #{iteration}\n{len(outputMatrix) - countNeuro}')
+    print(f'Iteration #{iteration}\nError: {len(outputMatrix) - countNeuro}')
 
-    if countNeuro == len(outputMatrix):
-        relax = True
-        print(f'\nRelaxation!!!\nFinal iteration: {iteration}')
-        
-        returnMatrix = returnImage(outputMatrix, row, cols)
-
-        writeToFile(returnMatrix, 'output', filename)
+    if countNeuro != len(outputMatrix):
+        inputMatrix = outputMatrix
 
     else:
-        inputMatrix = outputMatrix
+        relax = True
+        print(f'\nRelax!!!\n')
+        
+        returnMatrix = returnImage(outputMatrix, rows, cols)
+
+        writeToFile(returnMatrix, f'output/{filename}')
 
